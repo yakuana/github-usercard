@@ -3,13 +3,20 @@
            https://api.github.com/users/<your name>
 */
 
+// const myName = "yakuana"; 
 
+// changed "followersArray to gitUserNames"
+const gitUserNames = ["yakuana", "JasonYoo1", "Ryan-Wisniewski", "taniamichelle", "tetondan", "dustinmyers"];
 
-const myName = "yakuana"; 
-axios.get(`https://api.github.com/users/${myName}`)
+// iterating over gitUserNames []  
+gitUserNames.forEach((name) => {
+
+  // sending get request for current "name"
+  axios.get(`https://api.github.com/users/${name}`)
+
   .then((object) => {
     // console object {}  
-    console.log("response", object); 
+    // console.log("response", object); 
 
     // console data key of object {} -- the result is an object 
     console.log("value of data key", object.data);
@@ -22,8 +29,11 @@ axios.get(`https://api.github.com/users/${myName}`)
   })
 
   .catch((error) => {
+    // error has occured 
     console.log("The API is currently down.", error)
   })
+
+})
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -36,8 +46,6 @@ axios.get(`https://api.github.com/users/${myName}`)
            create a new component and add it to the DOM as a child of .cards
 */
 
-
-
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -47,8 +55,6 @@ axios.get(`https://api.github.com/users/${myName}`)
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
-
-const followersArray = ["JasonYoo1", "Ryan-Wisniewski", "taniamichelle", "tetondan", "dustinmyers"];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -72,7 +78,8 @@ const followersArray = ["JasonYoo1", "Ryan-Wisniewski", "taniamichelle", "tetond
 
 function createPersonCard(newObject) {
 
-  console.log(newObject); 
+  // check if passed in argument is an object 
+  // console.log(newObject); 
 
   // define new elements  
   const card = document.createElement("div");
