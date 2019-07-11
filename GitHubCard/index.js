@@ -19,7 +19,7 @@ gitUserNames.forEach((name) => {
     // console.log("response", object); 
 
     // console data key of object {} -- the result is an object 
-    console.log("value of data key", object.data);
+    // console.log("value of data key", object.data);
 
     // get .cards div 
     const cardsDiv = document.querySelector(".cards"); 
@@ -79,7 +79,7 @@ gitUserNames.forEach((name) => {
 function createPersonCard(newObject) {
 
   // check if passed in argument is an object 
-  // console.log(newObject); 
+  console.log(newObject); 
 
   // define new elements  
   const card = document.createElement("div");
@@ -94,6 +94,47 @@ function createPersonCard(newObject) {
   const following = document.createElement("p");
   const bio = document.createElement("p");
 
+  console.log(profile); 
+  console.log(profileLink);
+
+  // assign class names 
+  card.classList.add("card"); 
+  cardInfo.classList.add("card-info"); 
+  name.classList.add("name"); 
+  username.classList.add("username");
+
+  // set content (links)
+  cardImg.src = newObject.avatar_url; 
+    // console.log(newObject.avatar_url); 
+  profileLink.href = newObject.html_url;
+    // console.log(profileLink.href);
+  profileLink.textContent = newObject.html_url; 
+
+  // set content (text)
+  name.textContent = newObject.name; 
+    // console.log("name", newObject.name); 
+  username.textContent = newObject.login; 
+    // console.log("location", newObject.location); 
+  followers.textContent = `Followers: ${newObject.followers}`; 
+    // console.log("followers", newObject.followers); 
+  following.textContent = `Following: ${newObject.following}`; 
+    // console.log("following", newObject.following); 
+  profile.textContent = `Profile: `
+
+  // check if location available and set content 
+  if (newObject.location === null) {
+    location.textContent = "Location: Not Available"; 
+  } else {
+    location.textContent = `Location: ${newObject.location}`; 
+  };
+
+  // check if bio available and set content 
+  if (newObject.bio === null) {
+    bio.textContent = "Bio: Not Available"; 
+  } else {
+    bio.textContent = `Bio: ${newObject.bio}`; 
+  };
+
   // create structure of elements 
   card.appendChild(cardImg); 
   card.appendChild(cardInfo); 
@@ -105,32 +146,6 @@ function createPersonCard(newObject) {
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio); 
   profile.appendChild(profileLink); 
-
-  // assign class names 
-  card.classList.add("card"); 
-  cardInfo.classList.add("card-info"); 
-  name.classList.add("name"); 
-  username.classList.add("username");
-
-  // set content (links)
-  cardImg.src = newObject.avatar_url; 
-    // console.log(newObject.avatar_url); 
-  profileLink.src = newObject.url; 
-    // console.log(newObject.url); 
-
-  // set content (text)
-  name.textContent = newObject.name; 
-    // console.log("name", newObject.name); 
-  username.textContent = newObject.login; 
-    // console.log("username", newObject.login); 
-  location.textContent = newObject.location; 
-    // console.log("location", newObject.location); 
-  followers.textContent = newObject.followers; 
-    // console.log("followers", newObject.followers); 
-  following.textContent = newObject.following; 
-    // console.log("following", newObject.following); 
-  bio.textContent = newObject.bio; 
-    // console.log("bio", newObject.bio); 
 
   return card; 
 }
