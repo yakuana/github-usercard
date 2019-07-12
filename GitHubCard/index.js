@@ -23,7 +23,7 @@ axios.get(`https://api.github.com/users/${myName}`)
     // console data key of object {} -- the result is an object 
     // console.log("value of data key", object.data);
 
-    // pass the data received from Github into createPersonCard function
+    // pass the data received from Github into createPersonCard function and append to cardsDiv 
     cardsDiv.appendChild(createPersonCard(object.data)); 
   })
 
@@ -34,7 +34,7 @@ axios.get(`https://api.github.com/users/${myName}`)
 
 
 
-/** Get and create cards using hardcoded followers array renamed gitUserNames */
+/** Get and create cards using hardcoded followersArray renamed gitUserNames */
 
 // hard coded gitUserNames array [] 
 const gitUserNames = [
@@ -52,7 +52,7 @@ gitUserNames.forEach((name) => {
   axios.get(`https://api.github.com/users/${name}`)
     
     .then((object) => {
-      // pass the data received from Github into createPersonCard function
+      // pass the data received from Github into createPersonCard function and append to cardsDiv
       cardsDiv.appendChild(createPersonCard(object.data)); 
     })
 
@@ -64,7 +64,7 @@ gitUserNames.forEach((name) => {
 });
 
 
-// STRETCH 
+// STRETCH 1 of 3 
 /** Get and create cards for my github followers using my followers link */
 
 axios.get(`https://api.github.com/users/${myName}/followers`)
@@ -77,7 +77,7 @@ axios.get(`https://api.github.com/users/${myName}/followers`)
       axios.get(`https://api.github.com/users/${follower.login}`)
 
         .then(followerObj => {
-          // pass the data received from Github into createPersonCard function
+          // pass the data received from Github into createPersonCard function and append to cardsDiv 
           cardsDiv.appendChild(createPersonCard(followerObj.data)); 
         }) 
 
@@ -134,7 +134,7 @@ axios.get(`https://api.github.com/users/${myName}/followers`)
 
 function createPersonCard(newObject) {
 
-  // check if passed in argument is an object 
+  // check if argument is an object 
   console.log(newObject); 
 
   // define new elements  
@@ -150,8 +150,6 @@ function createPersonCard(newObject) {
   const following = document.createElement("p");
   const bio = document.createElement("p");
 
-  console.log(profile); 
-  console.log(profileLink);
 
   // assign class names 
   card.classList.add("card"); 
@@ -161,22 +159,15 @@ function createPersonCard(newObject) {
 
   // set content (links)
   cardImg.src = newObject.avatar_url; 
-    // console.log(newObject.avatar_url); 
   profileLink.href = newObject.html_url;
-    // console.log(profileLink.href);
 
   // set content (text)
   name.textContent = newObject.name; 
-    // console.log("name", newObject.name); 
   username.textContent = newObject.login; 
-    // console.log("location", newObject.location); 
   followers.textContent = `Followers: ${newObject.followers}`; 
-    // console.log("followers", newObject.followers); 
   following.textContent = `Following: ${newObject.following}`; 
-    // console.log("following", newObject.following); 
+  profile.textContent = `Profile: `;
   profileLink.textContent = newObject.html_url;
-    // console.log("profile link text", newObject.html_url);
-  profile.textContent = `Profile: `
   
   // assigns location text to Not Available if newObject.location is null 
   location.textContent = `Location: ${newObject.location || "Not Available" }`; 
