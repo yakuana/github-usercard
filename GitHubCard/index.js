@@ -3,16 +3,18 @@
            https://api.github.com/users/<your name>
 */
 
-// const myName = "yakuana"; 
 
-// changed "followersArray to gitUserNames"
-const gitUserNames = ["yakuana", "JasonYoo1", "Ryan-Wisniewski", "taniamichelle", "tetondan", "dustinmyers"];
 
-// iterating over gitUserNames []  
-gitUserNames.forEach((name) => {
+// get .cards div 
+const cardsDiv = document.querySelector(".cards"); 
 
-  // sending get request for current "name"
-  axios.get(`https://api.github.com/users/${name}`)
+
+/** Get and create my card */
+
+// string of my name 
+const myName = "yakuana"; 
+
+axios.get(`https://api.github.com/users/${myName}`)
 
   .then((object) => {
     // console object {}  
@@ -20,9 +22,6 @@ gitUserNames.forEach((name) => {
 
     // console data key of object {} -- the result is an object 
     // console.log("value of data key", object.data);
-
-    // get .cards div 
-    const cardsDiv = document.querySelector(".cards"); 
 
     // pass the data received from Github into createPersonCard function
     cardsDiv.appendChild(createPersonCard(object.data)); 
@@ -33,7 +32,64 @@ gitUserNames.forEach((name) => {
     console.log("The API is currently down.", error)
   })
 
-})
+
+
+/** Get and create cards using hardcoded followers array renamed gitUserNames */
+
+// hard coded gitUserNames array [] 
+const gitUserNames = [
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell"
+];
+
+// iterating over gitUserNames []  
+gitUserNames.forEach((name) => {
+
+  // sending get request for current "name"
+  axios.get(`https://api.github.com/users/${name}`)
+    
+    .then((object) => {
+      // pass the data received from Github into createPersonCard function
+      cardsDiv.appendChild(createPersonCard(object.data)); 
+    })
+
+    .catch((error) => {
+      // error has occured 
+      console.log("The API is currently down.", error)
+    })
+
+});
+
+
+// STRETCH 
+/** Get and create cards for my github followers using my followers link */
+
+axios.get(`https://api.github.com/users/${myName}/followers`)
+
+  .then(object => object.data)
+
+  .then(followersArray => {
+    followersArray.forEach((follower) => {
+
+      axios.get(`https://api.github.com/users/${follower.login}`)
+
+        .then(followerObj => {
+          // pass the data received from Github into createPersonCard function
+          cardsDiv.appendChild(createPersonCard(followerObj.data)); 
+        }) 
+
+        .catch((error) => {
+          // error has occured 
+          console.log("The API is currently down.", error)
+        })
+    })
+
+  });
+
+  
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -108,7 +164,6 @@ function createPersonCard(newObject) {
     // console.log(newObject.avatar_url); 
   profileLink.href = newObject.html_url;
     // console.log(profileLink.href);
-  profileLink.textContent = newObject.html_url; 
 
   // set content (text)
   name.textContent = newObject.name; 
@@ -119,21 +174,16 @@ function createPersonCard(newObject) {
     // console.log("followers", newObject.followers); 
   following.textContent = `Following: ${newObject.following}`; 
     // console.log("following", newObject.following); 
+  profileLink.textContent = newObject.html_url;
+    // console.log("profile link text", newObject.html_url);
   profile.textContent = `Profile: `
+  
+  // assigns location text to Not Available if newObject.location is null 
+  location.textContent = `Location: ${newObject.location || "Not Available" }`; 
 
-  // check if location available and set content 
-  if (newObject.location === null) {
-    location.textContent = "Location: Not Available"; 
-  } else {
-    location.textContent = `Location: ${newObject.location}`; 
-  };
-
-  // check if bio available and set content 
-  if (newObject.bio === null) {
-    bio.textContent = "Bio: Not Available"; 
-  } else {
-    bio.textContent = `Bio: ${newObject.bio}`; 
-  };
+  // assigns bio text to Not Available if newObject.bio is null  
+  bio.textContent = `Bio: ${newObject.bio || "Not Available"}`; 
+  
 
   // create structure of elements 
   card.appendChild(cardImg); 
